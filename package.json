@@ -1,0 +1,17 @@
+{
+  "name": "webmidi-sequencer",
+  "version": "0.0.0",
+  "description": "Sequencer based on WebMidi.js",
+  "main": "src/index.js",
+  "author": "Julien Ponge",
+  "license": "MIT",
+  "dependencies": {
+    "webmidi": "^2.0.0-rc.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-preset-es2015": "^6.22.0",
+    "webpack": "^2.2.1"
+  }
+}
