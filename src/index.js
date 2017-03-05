@@ -3,13 +3,13 @@ import WebMidi from 'webmidi'
 export class Sequencer {
 
   constructor(inputPort, outputPort, stepsPerBeat, beatsPerPattern, pattern) {
-    this.outputPort = outputPort 
-    this.stepsPerBeat = stepsPerBeat   
+    this.outputPort = outputPort
+    this.stepsPerBeat = stepsPerBeat
     this.actionStepAt = 24 / stepsPerBeat
     this.stepsPerPattern = stepsPerBeat * beatsPerPattern
-    this.beatsPerPattern = beatsPerPattern    
+    this.beatsPerPattern = beatsPerPattern
     this.pattern = pattern
-    
+
     this.step = -1
     this.patternStep = 0
 
@@ -25,6 +25,8 @@ export class Sequencer {
 
   sync() {
     this.step = -1
+    this.patternStep = 0
+    this.tick()
   }
 
   tick() {
@@ -32,7 +34,7 @@ export class Sequencer {
     if (this.step % this.actionStepAt == 0) {
       let action = this.pattern[this.patternStep]
       this.patternStep = (this.patternStep + 1) % (this.stepsPerPattern)
-      if (action != null) {        
+      if (action != null) {
         action.forEach(note => {
           this.outputPort.playNote(note[0], note[1], {
             duration: 50
@@ -57,4 +59,14 @@ export function inputPort(predicate) {
 
 export function outputPort(predicate) {
   return WebMidi.outputs.filter(predicate)[0]
+}
+
+export function whenMidiReady(success, failure) {
+  WebMidi.enable(err => {
+    if (err) {
+      failure(err)
+    } else {
+      success()
+    }
+  })
 }
