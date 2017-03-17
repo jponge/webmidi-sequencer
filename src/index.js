@@ -35,10 +35,10 @@ export class Sequencer {
       let action = this.pattern[this.patternStep]
       this.patternStep = (this.patternStep + 1) % (this.stepsPerPattern)
       if (action != null) {
-        action.forEach(note => {
-          this.outputPort.playNote(note[0], note[1], {
-            duration: 50
-          })
+        this.outputPort.playNote(action[0], action[1], {
+          duration: 50,
+          release: 1.0,
+          velocity: 1.0
         })
       }
     }
