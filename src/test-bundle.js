@@ -18,6 +18,10 @@ midiSequencer.whenMidiReady(() => {
     [["E1"], 1],
   ])
 
+  sequencer.addListener((event) => {
+    console.dir(event)
+  })
+
 }, err => {
   console.log("No MIDI available")
 })

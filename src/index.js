@@ -10,12 +10,13 @@ export class Sequencer {
     this.beatsPerPattern = beatsPerPattern
     this.pattern = pattern
 
+    this.listeners = []
+
     this.step = -1
     this.patternStep = 0
 
     inputPort.on("start", "all", event => {
       this.sync()
-      console.log("{sync}")
     })
 
     inputPort.on("clock", "all", event => {
@@ -23,9 +24,18 @@ export class Sequencer {
     })
   }
 
+  addListener(listener) {
+    this.listeners.push(listener)
+  }
+
+  dispatch(event) {
+    this.listeners.forEach(listener => listener(event))
+  }
+
   sync() {
     this.step = -1
     this.patternStep = 0
+    this.dispatch({type: 'sync'})
     this.tick()
   }
 
@@ -41,6 +51,7 @@ export class Sequencer {
           velocity: 1.0
         })
       }
+      this.dispatch({type: 'step', step: this.patternStep})
     }
   }
 
