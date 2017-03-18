@@ -29,7 +29,9 @@ export class Sequencer {
   }
 
   dispatch(event) {
-    this.listeners.forEach(listener => listener(event))
+    for (var i = 0; i < this.listeners.length; i++) {
+      this.listeners[i](event)
+    }
   }
 
   sync() {
